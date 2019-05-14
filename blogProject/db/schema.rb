@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 2019_05_09_011631) do
 
   create_table "blogs", force: :cascade do |t|
+    t.string "user_id"
     t.string "title"
     t.text "description"
     t.string "author"

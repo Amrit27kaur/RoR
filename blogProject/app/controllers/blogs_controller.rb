@@ -3,23 +3,22 @@ class BlogsController < ApplicationController
   def index
 
     @list_of_blogs = Blog.all
-
+    if user_signed_in?
+      redirect_to :controller => 'blogs' , :action => 'Dashboard'
+    end
 
 
   end
 
-  def current_user
-    @_current_user ||= session[:current_user_id] &&
-        User.find_by_id(session[:current_user_id])
-  end
 
 
 
-def dashboard                                      
 
-  @blog = Blog.dashboard
+def Dashboard
+
   id=params[:id]
-  @result_dashboard = Blog.find(id)
+  @result_blog = Blog.where(user_id:current_user.id)
+  puts @result_blog
 end
 
 
@@ -40,8 +39,9 @@ end
   def create
 
     @blog = Blog.new(
-        params.require(:blog).permit(:title, :description, :author)
+        params.require(:blog).permit(:title, :description, :author, :user_id)
     )
+    @blog.user_id = current_user.id
     result = @blog.save()
     if result
       redirect_to :controller => 'blogs' , :action => 'index'
@@ -58,5 +58,12 @@ end
     Blog.destroy(id)
     redirect_to :controller => 'blogs' , :action => 'index'
   end
-end
+
+  def update
+    @blog = Blog.find(params[:id])
+    if @blog.update(params.require(:blog).permit(:title, :description, :author, :user_id))
+    redirect_to :controller => 'blogs' , :action => 'index'
+  end
+  end
+  end
 
