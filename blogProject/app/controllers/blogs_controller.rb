@@ -59,6 +59,11 @@ end
     redirect_to :controller => 'blogs' , :action => 'index'
   end
 
+  def edit
+    @blog = Blog.find(params[:id])
+
+  end
+
   def update
     @blog = Blog.find(params[:id])
     if @blog.update(params.require(:blog).permit(:title, :description, :author, :user_id))

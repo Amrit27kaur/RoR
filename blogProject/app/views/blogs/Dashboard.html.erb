@@ -96,7 +96,9 @@
 
                   <%= link_to('delete', blog , :method => :delete, class:"btn btn-danger") %>
                   <br><br>
-                  <%= link_to('update', blog , :method => :update, class:"btn btn-primary") %>
+
+                  <a href="/blogs/<%= blog.id %>/edit" class = "btn btn-primary">Update</a>
+
                   <br><br>
 
                 </div>
